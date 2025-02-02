@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удомля — Официальный портал</title>
+    <link href="https://fonts.googleapis.com/css2?family=Yandex+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yandex-red: #FF0000;
+            --yandex-gray: #F5F5F6;
+            --yandex-black: #000000;
+            --yandex-blue: #0066FF;
+            --border-radius: 8px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Yandex Sans Text', sans-serif;
+            margin: 0;
+            background: var(--yandex-gray);
+            color: var(--yandex-black);
+            line-height: 1.5;
+        }
+
+        .yandex-header {
+            background: var(--yandex-red);
+            padding: 16px;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 40px;
+            background: white;
+            -webkit-mask: url('data:image/svg+xml,<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-size="32" font-weight="700">Удомля</text></svg>') no-repeat;
+            mask: url('data:image/svg+xml,<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-size="32" font-weight="700">Удомля</text></svg>') no-repeat;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 48px 12px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--yandex-red);
+        }
+
+        .hero-section {
+            background: linear-gradient(97deg, #FFF 50%, var(--yandex-gray) 50%);
+            padding: 64px 16px;
+        }
+
+        .hero-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-card {
+            background: white;
+            padding: 32px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: white;
+            border-radius: var(--border-radius);
+            transition: transform 0.2s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 64px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 0 16px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--yandex-red);
+        }
+
+        .map-section {
+            height: 500px;
+            background: var(--yandex-gray);
+            position: relative;
+        }
+
+        .floating-panel {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            background: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="yandex-header">
+        <div class="header-content">
+            <div class="logo"></div>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Поиск по сайту">
+                <button class="search-button">⌕</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-grid">
+            <div class="hero-card">
+                <h1>Удомля</h1>
+                <p>Город энергетиков и озерного края в Тверской области</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">1901</div>
+                        <div class="stat-label">год основания</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">28 000+</div>
+                        <div class="stat-label">жителей</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">озёр</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="service-card">
+                    <h3>Калининская АЭС</h3>
+                    <p>Крупнейший энергетический объект региона</p>
+                    <div style="color: var(--yandex-blue); margin-top: 16px;">→ Подробнее</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-grid">
+        <div class="service-card">
+            <h3>Транспорт</h3>
+            <p>Расписание автобусов и электричек</p>
+        </div>
+        <div class="service-card">
+            <h3>Новости</h3>
+            <p>Последние события города</p>
+        </div>
+        <div class="service-card">
+            <h3>Экология</h3>
+            <p>Мониторинг окружающей среды</p>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="floating-panel">
+            <h3>Карта Удомли</h3>
+            <p>ул. Попова, 25</p>
+            <div style="color: var(--yandex-blue); margin-top: 12px;">→ Построить маршрут</div>
+        </div>
+    </section>
+
+    <script>
+        // Микровзаимодействия
+        document.querySelectorAll('.stat-item, .service-card').forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    item.style.transform = '';
+                }, 100);
+            });
+        });
+
+        // Адаптивная высота карты
+        function adjustMapHeight() {
+            const mapSection = document.querySelector('.map-section');
+            mapSection.style.height = `${window.innerHeight * 0.6}px`;
+        }
+
+        window.addEventListener('resize', adjustMapHeight);
+        adjustMapHeight();
+    </script>
+</body>
+</html>
