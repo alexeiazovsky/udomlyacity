@@ -34,6 +34,7 @@
             --shadow: 0 8px 24px rgba(0,0,0,0.08);
             --radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --content-width: min(90%, 1200px);
         }
 
         body {
@@ -55,12 +56,11 @@
         }
 
         .nav-container {
-            max-width: 1200px;
+            width: var(--content-width);
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
         }
 
         .logo {
@@ -91,7 +91,7 @@
         }
 
         .hero-content {
-            max-width: 1200px;
+            width: var(--content-width);
             margin: 0 auto;
             text-align: center;
         }
@@ -116,9 +116,8 @@
         }
 
         .services-grid {
-            max-width: 1200px;
+            width: var(--content-width);
             margin: 6rem auto;
-            padding: 0 2rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
@@ -150,10 +149,9 @@
         }
 
         .map-container {
-            height: 500px;
-            width: 90%;
-            max-width: 1000px;
-            margin: 2rem auto;
+            width: var(--content-width);
+            height: 560px;
+            margin: 4rem auto;
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
@@ -161,9 +159,8 @@
         }
 
         .contacts-section {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
+            width: var(--content-width);
+            margin: 6rem auto;
         }
 
         .contact-card {
@@ -171,10 +168,8 @@
             border-radius: var(--radius);
             padding: 2rem;
             box-shadow: var(--shadow);
-            transition: var(--transition);
             position: relative;
             overflow: hidden;
-            margin-bottom: 2rem;
         }
 
         .contact-card::before {
@@ -232,15 +227,14 @@
             }
             
             .nav-container {
-                padding: 0 1rem;
                 flex-direction: column;
                 gap: 1rem;
+                padding: 0 1rem;
             }
             
             .map-container {
-                width: 95%;
                 height: 400px;
-                margin: 1rem auto;
+                margin: 2rem auto;
             }
             
             .map-marker {
@@ -368,9 +362,9 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Инициализация карты с коррекцией координат
+        // Инициализация карты
         const map = L.map('map', {
-            center: [57.9154, 35.0967], // Координаты КАЭС
+            center: [57.9154, 35.0967],
             zoom: 14,
             scrollWheelZoom: true,
             wheelDebounceTime: 150
@@ -380,17 +374,15 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Создание маркеров с точными координатами
+        // Создание маркеров
         const createMarker = (iconText, coords, title) => {
-            const marker = L.marker(coords, {
+            return L.marker(coords, {
                 icon: L.divIcon({
                     className: 'map-marker',
                     html: `<div>${iconText}</div>`,
                     iconSize: [32, 32]
                 })
             }).bindPopup(`<b>${title}</b><br>Широта: ${coords[0]}<br>Долгота: ${coords[1]}`);
-            
-            return marker;
         };
 
         // Добавление объектов
