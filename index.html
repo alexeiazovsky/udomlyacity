@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
-    <!-- Yandex.Metrika counter -->
+   <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
@@ -157,33 +157,70 @@
             box-shadow: var(--shadow);
         }
 
-        .floating-panel {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
+        .contacts-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .contact-card {
             background: var(--card-bg);
-            padding: 1.5rem;
             border-radius: var(--radius);
+            padding: 2rem;
             box-shadow: var(--shadow);
-            z-index: 1000;
-        }
-
-        .info-list {
-            margin-top: 1.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .info-list li {
-            margin: 0.8rem 0;
+            transition: var(--transition);
             position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
         }
 
-        .info-list li::before {
-            content: "•";
-            color: var(--primary);
+        .contact-card::before {
+            content: '';
             position: absolute;
-            left: -1.2rem;
-            font-size: 1.4em;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background: rgba(0,0,0,0.03);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .leaflet-marker-icon {
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        .map-marker {
+            width: 32px !important;
+            height: 32px !important;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            color: white;
+            font-size: 18px;
         }
 
         @media (max-width: 768px) {
@@ -269,17 +306,43 @@
         </article>
     </section>
 
-    <div class="map-container" id="map">
-        <div class="floating-panel">
-            <h3>Администрация города</h3>
-            <ul class="info-list">
-                <li>ул. Попова, 25</li>
-                <li>Пн-Пт: 08:00–17:00</li>
-                <li>Телефон: +7 (48255) 5-12-34</li>
-                <li>Email: admin@udomlya.ru</li>
-            </ul>
+    <div class="map-container" id="map"></div>
+
+    <section class="contacts-section">
+        <div class="contact-card">
+            <h2>Контакты администрации</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h3>Адрес</h3>
+                        <p>ул. Попова, 25<br>Удомля, Тверская обл.</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">⏰</div>
+                    <div>
+                        <h3>Часы работы</h3>
+                        <p>Пн-Пт: 08:00–17:00<br>Сб-Вс: выходной</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <h3>Телефоны</h3>
+                        <p>+7 (48255) 5-12-34<br>+7 (48255) 5-56-78</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <h3>Электронная почта</h3>
+                        <p>admin@udomlya.ru<br>reception@udomlya.ru</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
@@ -287,33 +350,41 @@
         const map = L.map('map', {
             center: [57.878, 35.018],
             zoom: 13,
-            scrollWheelZoom: false
+            scrollWheelZoom: true
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Создание стилизованных маркеров
+        const createMarker = (iconText) => {
+            return L.divIcon({
+                className: 'map-marker',
+                html: `<div>${iconText}</div>`,
+                iconSize: [32, 32]
+            });
+        };
 
         // Добавление маркеров
         const markers = [
             {
                 coords: [57.8833, 35.0167],
                 title: "Калининская АЭС",
-                icon: "⚛️"
+                icon: createMarker('⚡')
             },
             {
                 coords: [57.853, 35.009],
                 title: "Озеро Удомля",
-                icon: "🌊"
+                icon: createMarker('🌊')
             }
         ];
 
         markers.forEach(marker => {
             L.marker(marker.coords, {
-                icon: L.divIcon({
-                    html: `<div style="font-size:32px">${marker.icon}</div>`,
-                    iconSize: [40, 40]
-                })
+                icon: marker.icon
             })
-            .bindPopup(marker.title)
+            .bindPopup(`<b>${marker.title}</b><br>${marker.coords.join(', ')}`)
             .addTo(map);
         });
 
@@ -337,7 +408,7 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.service-card, .stat-card').forEach(card => {
+        document.querySelectorAll('.service-card, .stat-card, .contact-card').forEach(card => {
             card.style.opacity = 0;
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'all 0.6s ease-out';
