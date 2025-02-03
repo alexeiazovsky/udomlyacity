@@ -150,11 +150,14 @@
         }
 
         .map-container {
-            height: 600px;
+            height: 500px;
+            width: 90%;
+            max-width: 1000px;
+            margin: 2rem auto;
             border-radius: var(--radius);
             overflow: hidden;
-            margin: 4rem 2rem;
             box-shadow: var(--shadow);
+            position: relative;
         }
 
         .contacts-section {
@@ -230,11 +233,30 @@
             
             .nav-container {
                 padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
             }
             
             .map-container {
-                margin: 2rem 1rem;
+                width: 95%;
                 height: 400px;
+                margin: 1rem auto;
+            }
+            
+            .map-marker {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .map-container {
+                height: 300px;
+            }
+            
+            .stat-card {
+                padding: 1rem;
             }
         }
     </style>
@@ -346,59 +368,65 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Инициализация карты
+        // Инициализация карты с коррекцией координат
         const map = L.map('map', {
-            center: [57.878, 35.018],
-            zoom: 13,
-            scrollWheelZoom: true
+            center: [57.9154, 35.0967], // Координаты КАЭС
+            zoom: 14,
+            scrollWheelZoom: true,
+            wheelDebounceTime: 150
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Создание стилизованных маркеров
-        const createMarker = (iconText) => {
-            return L.divIcon({
-                className: 'map-marker',
-                html: `<div>${iconText}</div>`,
-                iconSize: [32, 32]
-            });
+        // Создание маркеров с точными координатами
+        const createMarker = (iconText, coords, title) => {
+            const marker = L.marker(coords, {
+                icon: L.divIcon({
+                    className: 'map-marker',
+                    html: `<div>${iconText}</div>`,
+                    iconSize: [32, 32]
+                })
+            }).bindPopup(`<b>${title}</b><br>Широта: ${coords[0]}<br>Долгота: ${coords[1]}`);
+            
+            return marker;
         };
 
-        // Добавление маркеров
-        const markers = [
-            {
-                coords: [57.8833, 35.0167],
-                title: "Калининская АЭС",
-                icon: createMarker('⚡')
-            },
-            {
-                coords: [57.853, 35.009],
-                title: "Озеро Удомля",
-                icon: createMarker('🌊')
-            }
-        ];
+        // Добавление объектов
+        const kaesMarker = createMarker('⚡', [57.9154, 35.0967], 'Калининская АЭС');
+        const lakeMarker = createMarker('🌊', [57.9078, 35.0833], 'Озеро Удомля');
 
-        markers.forEach(marker => {
-            L.marker(marker.coords, {
-                icon: marker.icon
-            })
-            .bindPopup(`<b>${marker.title}</b><br>${marker.coords.join(', ')}`)
-            .addTo(map);
+        kaesMarker.addTo(map);
+        lakeMarker.addTo(map);
+
+        // Оптимизация прокрутки
+        let lastTime = 0;
+        map.on('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastTime < 200) return;
+            lastTime = now;
+            e.originalEvent.preventDefault();
         });
+
+        // Адаптация для мобильных
+        if (window.innerWidth <= 768) {
+            map.setView([57.9154, 35.0967], 13);
+        }
 
         // Плавная прокрутка
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             });
         });
 
-        // Анимации при скролле
+        // Анимации
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
@@ -406,7 +434,7 @@
                     entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
 
         document.querySelectorAll('.service-card, .stat-card, .contact-card').forEach(card => {
             card.style.opacity = 0;
