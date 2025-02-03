@@ -54,6 +54,11 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .header.hidden {
+            transform: translateY(-100%);
         }
 
         .nav-container {
@@ -186,11 +191,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .service-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+            overflow: hidden;
         }
 
         .service-card::before {
@@ -200,7 +201,25 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: var(--primary);
+            background: linear-gradient(
+                45deg,
+                var(--primary),
+                var(--secondary),
+                var(--accent)
+            );
+            background-size: 400% 400%;
+            animation: gradientFlow 6s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .map-container {
@@ -436,6 +455,21 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        // Скрытие хедера при скролле
+        let lastScroll = 0;
+        const header = document.querySelector('.header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
+        });
+
         // Анимация при скролле
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -470,6 +504,7 @@
                 })
             }).bindPopup(`<b>${title}</b>`);
         };
+
 
         const kaesMarker = createMarker('⚡', [57.9154, 35.0967], 'Калининская АЭС');
         const lakeMarker = createMarker('🌊', [57.9078, 35.0833], 'Озеро Удомля');
