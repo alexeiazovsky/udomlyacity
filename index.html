@@ -1,167 +1,144 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(99766132, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true,
-        ecommerce:"dataLayer"
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/99766132" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+        ym(99766132, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:"dataLayer"
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/99766132" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Удомля — Официальный портал</title>
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    <link href="https://fonts.googleapis.com/css2?family=Yandex+Sans+Text:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <style>
         :root {
-            --yandex-red: #FF0000;
-            --yandex-gray: #F5F5F6;
-            --yandex-black: #000000;
-            --yandex-blue: #0066FF;
-            --border-radius: 8px;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --primary: #FF3333;
+            --secondary: #0066FF;
+            --accent: #00CC66;
+            --bg: #F8F9FF;
+            --card-bg: #FFFFFF;
+            --text: #1A1A1A;
+            --shadow: 0 8px 24px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
-            font-family: 'Yandex Sans Text', sans-serif;
+            font-family: 'Yandex Sans Text', system-ui, -apple-system, sans-serif;
             margin: 0;
-            background: var(--yandex-gray);
-            color: var(--yandex-black);
-            line-height: 1.5;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .yandex-header {
-            background: var(--yandex-red);
-            padding: 16px;
-            position: relative;
+        .header {
+            background: var(--card-bg);
+            padding: 1rem 0;
             box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header-content {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 24px;
+            justify-content: space-between;
+            padding: 0 2rem;
         }
 
         .logo {
-            width: 120px;
-            height: 40px;
-            background: white;
-            -webkit-mask: url('data:image/svg+xml,<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-size="32" font-weight="700">Удомля</text></svg>') no-repeat;
-            mask: url('data:image/svg+xml,<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg"><text x="0" y="30" font-size="32" font-weight="700">Удомля</text></svg>') no-repeat;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .search-bar {
-            flex-grow: 1;
-            max-width: 600px;
+        .hero {
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
             position: relative;
+            overflow: hidden;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 12px 48px 12px 16px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 16px;
-        }
-
-        .search-button {
+        .hero::after {
+            content: '';
             position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--yandex-red);
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--bg);
+            transform: skewY(-3deg);
         }
 
-        .hero-section {
-            background: linear-gradient(97deg, #FFF 50%, var(--yandex-gray) 50%);
-            padding: 64px 16px;
-        }
-
-        .hero-grid {
+        .hero-content {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-
-        .hero-card {
-            background: white;
-            padding: 32px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            text-align: center;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .stat-item {
-            text-align: center;
-            padding: 16px;
-            background: white;
-            border-radius: var(--border-radius);
-            transition: transform 0.2s;
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
         }
 
-        .stat-item:hover {
-            transform: translateY(-4px);
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
 
         .services-grid {
             max-width: 1200px;
-            margin: 64px auto;
+            margin: 6rem auto;
+            padding: 0 2rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            padding: 0 16px;
+            gap: 2rem;
         }
 
         .service-card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--border-radius);
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
         }
 
         .service-card::before {
@@ -171,125 +148,183 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: var(--yandex-red);
+            background: var(--primary);
         }
 
-        .map-section {
-            height: 500px;
-            background: var(--yandex-gray);
-            position: relative;
+        .map-container {
+            height: 600px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 4rem 2rem;
+            box-shadow: var(--shadow);
         }
 
         .floating-panel {
             position: absolute;
-            top: 32px;
-            left: 32px;
-            background: white;
-            padding: 24px;
-            border-radius: var(--border-radius);
+            top: 2rem;
+            left: 2rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            z-index: 100;
+            z-index: 1000;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255,51,51,0.2);
         }
 
         @media (max-width: 768px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
+            .hero {
+                padding: 6rem 1rem 3rem;
             }
             
-            .header-content {
-                flex-direction: column;
-                gap: 16px;
+            .nav-container {
+                padding: 0 1rem;
             }
             
-            .search-bar {
-                width: 100%;
+            .map-container {
+                margin: 2rem 1rem;
+                height: 400px;
             }
         }
     </style>
 </head>
 <body>
-    <header class="yandex-header">
-        <div class="header-content">
-            <div class="logo"></div>
-            <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Поиск по сайту">
-                <button class="search-button">⌕</button>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">Удомля</a>
+            <div class="nav-links">
+                <a href="#about" class="button">О городе</a>
+                <a href="#services" class="button">Услуги</a>
+                <a href="#map" class="button">Карта</a>
             </div>
-        </div>
+        </nav>
     </header>
 
-    <section class="hero-section">
-        <div class="hero-grid">
-            <div class="hero-card">
-                <h1>Удомля</h1>
-                <p>Город энергетиков и озерного края в Тверской области</p>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">1901</div>
-                        <div class="stat-label">год основания</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">28 000+</div>
-                        <div class="stat-label">жителей</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">15</div>
-                        <div class="stat-label">озёр</div>
-                    </div>
+    <section class="hero" id="about">
+        <div class="hero-content">
+            <h1>Удомля — город энергии и природы</h1>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">1901</div>
+                    <div class="stat-label">Год основания</div>
                 </div>
-            </div>
-            <div>
-                <div class="service-card">
-                    <h3>Калининская АЭС</h3>
-                    <p>Крупнейший энергетический объект региона</p>
-                    <div style="color: var(--yandex-blue); margin-top: 16px;">→ Подробнее</div>
+                <div class="stat-card">
+                    <div class="stat-value">28 000+</div>
+                    <div class="stat-label">Жителей</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Озёр</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="services-grid">
-        <div class="service-card">
-            <h3>Транспорт</h3>
+    <section class="services-grid" id="services">
+        <article class="service-card">
+            <h2>Калининская АЭС</h2>
+            <p>Крупнейший энергетический объект региона</p>
+            <a href="#" class="button" style="margin-top: 1rem;">Подробнее</a>
+        </article>
+        
+        <article class="service-card">
+            <h2>Транспорт</h2>
             <p>Расписание автобусов и электричек</p>
-        </div>
-        <div class="service-card">
-            <h3>Новости</h3>
-            <p>Последние события города</p>
-        </div>
-        <div class="service-card">
-            <h3>Экология</h3>
+            <a href="#" class="button" style="margin-top: 1rem;">Расписание</a>
+        </article>
+
+        <article class="service-card">
+            <h2>Экология</h2>
             <p>Мониторинг окружающей среды</p>
-        </div>
+            <a href="#" class="button" style="margin-top: 1rem;">Данные</a>
+        </article>
     </section>
 
-    <section class="map-section">
+    <div class="map-container" id="map">
         <div class="floating-panel">
-            <h3>Карта Удомли</h3>
+            <h3>Администрация города</h3>
             <p>ул. Попова, 25</p>
-            <div style="color: var(--yandex-blue); margin-top: 12px;">→ Построить маршрут</div>
+            <a href="https://yandex.ru/maps" target="_blank" class="button" style="margin-top: 0.5rem;">Маршрут</a>
         </div>
-    </section>
+    </div>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Микровзаимодействия
-        document.querySelectorAll('.stat-item, .service-card').forEach(item => {
-            item.addEventListener('click', () => {
-                item.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    item.style.transform = '';
-                }, 100);
+        // Инициализация карты
+        const map = L.map('map', {
+            center: [57.878, 35.018],
+            zoom: 13,
+            scrollWheelZoom: false
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Добавление маркеров
+        const markers = [
+            {
+                coords: [57.8833, 35.0167],
+                title: "Калининская АЭС",
+                icon: "⚛️"
+            },
+            {
+                coords: [57.853, 35.009],
+                title: "Озеро Удомля",
+                icon: "🌊"
+            }
+        ];
+
+        markers.forEach(marker => {
+            L.marker(marker.coords, {
+                icon: L.divIcon({
+                    html: `<div style="font-size:32px">${marker.icon}</div>`,
+                    iconSize: [40, 40]
+                })
+            })
+            .bindPopup(marker.title)
+            .addTo(map);
+        });
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
 
-        // Адаптивная высота карты
-        function adjustMapHeight() {
-            const mapSection = document.querySelector('.map-section');
-            mapSection.style.height = `${window.innerHeight * 0.6}px`;
-        }
+        // Анимации при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
 
-        window.addEventListener('resize', adjustMapHeight);
-        adjustMapHeight();
+        document.querySelectorAll('.service-card, .stat-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
     </script>
 </body>
 </html>
