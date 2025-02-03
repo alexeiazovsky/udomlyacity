@@ -36,7 +36,6 @@
             --radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --content-width: min(90%, 1200px);
-            --decor-width: 160px;
         }
 
         body {
@@ -46,38 +45,6 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: var(--decor-width);
-            z-index: -1;
-            opacity: 0.08;
-            background-image: radial-gradient(circle, var(--primary) 1px, transparent 1px);
-            background-size: 24px 24px;
-            display: none;
-        }
-
-        body::before {
-            left: 0;
-            mask-image: linear-gradient(to right, black 60%, transparent);
-        }
-
-        body::after {
-            right: 0;
-            mask-image: linear-gradient(to left, black 60%, transparent);
-        }
-
-        @media (min-width: 1200px) {
-            body::before,
-            body::after {
-                display: block;
-            }
         }
 
         .header {
@@ -95,6 +62,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 1rem;
         }
 
         .logo {
@@ -104,88 +72,79 @@
             color: var(--primary);
             text-decoration: none;
             letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-button {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
 
         .hero {
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 1rem 4rem;
+            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
             position: relative;
             overflow: hidden;
-            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
         }
 
         .main-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             margin: 0 0 3rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.2);
             color: white;
-            position: relative;
-            display: inline-block;
-            background: linear-gradient(45deg, #fff 30%, #eee 70%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: titleAppear 1s ease-out;
-        }
-
-        @keyframes titleAppear {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            text-align: center;
+            line-height: 1.2;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
             max-width: 1000px;
             margin: 0 auto;
         }
 
         .stat-card {
             background: rgba(255,255,255,0.15);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: var(--radius);
             backdrop-filter: blur(12px);
             transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent);
-            animation: rotate 8s linear infinite;
-        }
-
-        .stat-card-content {
-            position: relative;
-            z-index: 1;
         }
 
         .stat-value {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             margin: 0 0 0.5rem;
             color: white;
-            display: flex;
-            justify-content: center;
+            text-align: center;
         }
 
         .stat-label {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: rgba(255,255,255,0.9);
             text-transform: uppercase;
@@ -194,38 +153,28 @@
         }
 
         .stat-details {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: rgba(255,255,255,0.8);
             margin-top: 1rem;
             text-align: center;
         }
 
-        @keyframes rotate {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         .services-grid {
             width: var(--content-width);
-            margin: 6rem auto;
+            margin: 4rem auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1rem;
         }
 
         .service-card {
             background: var(--card-bg);
             border-radius: var(--radius);
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
         }
 
         .service-card::before {
@@ -240,8 +189,8 @@
 
         .map-container {
             width: var(--content-width);
-            height: 560px;
-            margin: 4rem auto;
+            height: 400px;
+            margin: 3rem auto;
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
@@ -249,7 +198,8 @@
 
         .contacts-section {
             width: var(--content-width);
-            margin: 6rem auto;
+            margin: 4rem auto;
+            padding: 0 1rem;
         }
 
         .contact-card {
@@ -261,8 +211,8 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
@@ -273,11 +223,6 @@
             padding: 1rem;
             border-radius: var(--radius);
             background: rgba(0,0,0,0.03);
-        }
-
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--primary);
         }
 
         .leaflet-marker-icon {
@@ -299,16 +244,55 @@
         }
 
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
             }
 
-            .stat-value {
-                font-size: 2.5rem;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .nav-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 4rem 1rem 3rem;
+            }
+
+            .main-title {
+                font-size: 2.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
             .map-container {
-                height: 400px;
+                height: 300px;
+            }
+
+            .service-card {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .nav-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .stat-details {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -318,9 +302,9 @@
         <nav class="nav-container">
             <a href="#" class="logo">Удомля</a>
             <div class="nav-links">
-                <a href="#about" class="button">О городе</a>
-                <a href="#services" class="button">Услуги</a>
-                <a href="#map" class="button">Карта</a>
+                <a href="#about" class="nav-button">О городе</a>
+                <a href="#services" class="nav-button">Услуги</a>
+                <a href="#map" class="nav-button">Карта</a>
             </div>
         </nav>
     </header>
@@ -330,25 +314,19 @@
             <h1 class="main-title">Удомля — город энергии и природы</h1>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-card-content">
-                        <div class="stat-value">1901</div>
-                        <div class="stat-label">Год основания</div>
-                        <div class="stat-details">Первое упоминание как железнодорожная станция</div>
-                    </div>
+                    <div class="stat-value">1901</div>
+                    <div class="stat-label">Год основания</div>
+                    <div class="stat-details">Первое упоминание как железнодорожная станция</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-card-content">
-                        <div class="stat-value">28K+</div>
-                        <div class="stat-label">Жителей</div>
-                        <div class="stat-details">Средний возраст населения — 38 лет</div>
-                    </div>
+                    <div class="stat-value">28K+</div>
+                    <div class="stat-label">Жителей</div>
+                    <div class="stat-details">Средний возраст населения — 38 лет</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-card-content">
-                        <div class="stat-value">15</div>
-                        <div class="stat-label">Озёр</div>
-                        <div class="stat-details">Общая площадь водной поверхности — 42 км²</div>
-                    </div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Озёр</div>
+                    <div class="stat-details">Общая площадь водной поверхности — 42 км²</div>
                 </div>
             </div>
         </div>
@@ -428,7 +406,7 @@
     <script>
         const map = L.map('map', {
             center: [57.9154, 35.0967],
-            zoom: 14,
+            zoom: 13,
             scrollWheelZoom: true
         });
 
@@ -454,10 +432,15 @@
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             });
         });
+
+        if (window.innerWidth <= 768) {
+            map.setView([57.9154, 35.0967], 12);
+        }
     </script>
 </body>
 </html>
