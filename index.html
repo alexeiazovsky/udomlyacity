@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
-<!-- Yandex.Metrika counter -->
+ <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
@@ -130,7 +130,6 @@
             padding: 2rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            cursor: pointer;
             position: relative;
             overflow: hidden;
         }
@@ -169,21 +168,22 @@
             z-index: 1000;
         }
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.75rem 1.5rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 500;
+        .info-list {
+            margin-top: 1.5rem;
+            padding-left: 1.5rem;
         }
 
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(255,51,51,0.2);
+        .info-list li {
+            margin: 0.8rem 0;
+            position: relative;
+        }
+
+        .info-list li::before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: -1.2rem;
+            font-size: 1.4em;
         }
 
         @media (max-width: 768px) {
@@ -221,14 +221,17 @@
                 <div class="stat-card">
                     <div class="stat-value">1901</div>
                     <div class="stat-label">Год основания</div>
+                    <div class="stat-details">Первое упоминание как железнодорожная станция</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">28 000+</div>
                     <div class="stat-label">Жителей</div>
+                    <div class="stat-details">Средний возраст населения — 38 лет</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">15</div>
                     <div class="stat-label">Озёр</div>
+                    <div class="stat-details">Общая площадь водной поверхности — 42 км²</div>
                 </div>
             </div>
         </div>
@@ -237,28 +240,44 @@
     <section class="services-grid" id="services">
         <article class="service-card">
             <h2>Калининская АЭС</h2>
-            <p>Крупнейший энергетический объект региона</p>
-            <a href="#" class="button" style="margin-top: 1rem;">Подробнее</a>
+            <ul class="info-list">
+                <li>4 энергоблока мощностью 4000 МВт</li>
+                <li>Обеспечивает 10% энергопотребления ЦФО</li>
+                <li>Более 3000 сотрудников</li>
+                <li>Экологический мониторинг 24/7</li>
+            </ul>
         </article>
         
         <article class="service-card">
-            <h2>Транспорт</h2>
-            <p>Расписание автобусов и электричек</p>
-            <a href="#" class="button" style="margin-top: 1rem;">Расписание</a>
+            <h2>Транспортная система</h2>
+            <ul class="info-list">
+                <li>Автобусные маршруты: 12 городских, 8 пригородных</li>
+                <li>Ж/д сообщение с Москвой и Санкт-Петербургом</li>
+                <li>Такси: 5 операторов, средняя цена поездки — 150₽</li>
+                <li>Электрозаправки: 3 станции</li>
+            </ul>
         </article>
 
         <article class="service-card">
-            <h2>Экология</h2>
-            <p>Мониторинг окружающей среды</p>
-            <a href="#" class="button" style="margin-top: 1rem;">Данные</a>
+            <h2>Экология и природа</h2>
+            <ul class="info-list">
+                <li>Воздух: индекс чистоты — 92/100</li>
+                <li>Озёра: 15 водоёмов, глубина до 24 м</li>
+                <li>Лесные массивы: 68% территории</li>
+                <li>Эко-тропы: 42 км маршрутов</li>
+            </ul>
         </article>
     </section>
 
     <div class="map-container" id="map">
         <div class="floating-panel">
             <h3>Администрация города</h3>
-            <p>ул. Попова, 25</p>
-            <a href="https://yandex.ru/maps" target="_blank" class="button" style="margin-top: 0.5rem;">Маршрут</a>
+            <ul class="info-list">
+                <li>ул. Попова, 25</li>
+                <li>Пн-Пт: 08:00–17:00</li>
+                <li>Телефон: +7 (48255) 5-12-34</li>
+                <li>Email: admin@udomlya.ru</li>
+            </ul>
         </div>
     </div>
 
