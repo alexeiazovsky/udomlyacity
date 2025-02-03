@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
-   <!-- Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
@@ -35,6 +35,7 @@
             --radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --content-width: min(90%, 1200px);
+            --decor-width: 160px;
         }
 
         body {
@@ -44,6 +45,38 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: var(--decor-width);
+            z-index: -1;
+            opacity: 0.08;
+            background-image: radial-gradient(circle, var(--primary) 1px, transparent 1px);
+            background-size: 24px 24px;
+            display: none;
+        }
+
+        body::before {
+            left: 0;
+            mask-image: linear-gradient(to right, black 60%, transparent);
+        }
+
+        body::after {
+            right: 0;
+            mask-image: linear-gradient(to left, black 60%, transparent);
+        }
+
+        @media (min-width: 1200px) {
+            body::before,
+            body::after {
+                display: block;
+            }
         }
 
         .header {
@@ -79,21 +112,36 @@
             overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
         .hero::after {
             content: '';
             position: absolute;
             bottom: -50px;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: var(--bg);
-            transform: skewY(-3deg);
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            filter: blur(40px);
         }
 
         .hero-content {
             width: var(--content-width);
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .stats-grid {
@@ -109,6 +157,8 @@
             border-radius: var(--radius);
             backdrop-filter: blur(10px);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
@@ -121,6 +171,24 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            position: relative;
+        }
+
+        .services-grid::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--decor-width));
+            right: calc(-1 * var(--decor-width));
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                transparent calc(var(--decor-width) - 2px),
+                rgba(0,0,0,0.03) calc(var(--decor-width) + 2px),
+                rgba(0,0,0,0.03) calc(100% - var(--decor-width) - 2px),
+                transparent calc(100% - var(--decor-width) + 2px)
+            );
+            z-index: -1;
         }
 
         .service-card {
@@ -156,11 +224,26 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             position: relative;
+            border: 2px solid rgba(0,0,0,0.05);
         }
 
         .contacts-section {
             width: var(--content-width);
             margin: 6rem auto;
+            position: relative;
+        }
+
+        .contacts-section::after {
+            content: '';
+            position: absolute;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0.04;
+            z-index: -1;
+            border-radius: var(--radius);
         }
 
         .contact-card {
@@ -241,6 +324,10 @@
                 width: 28px !important;
                 height: 28px !important;
                 font-size: 16px;
+            }
+
+            .services-grid::before {
+                display: none;
             }
         }
 
@@ -362,7 +449,6 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Инициализация карты
         const map = L.map('map', {
             center: [57.9154, 35.0967],
             zoom: 14,
@@ -374,7 +460,6 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Создание маркеров
         const createMarker = (iconText, coords, title) => {
             return L.marker(coords, {
                 icon: L.divIcon({
@@ -385,14 +470,12 @@
             }).bindPopup(`<b>${title}</b><br>Широта: ${coords[0]}<br>Долгота: ${coords[1]}`);
         };
 
-        // Добавление объектов
         const kaesMarker = createMarker('⚡', [57.9154, 35.0967], 'Калининская АЭС');
         const lakeMarker = createMarker('🌊', [57.9078, 35.0833], 'Озеро Удомля');
 
         kaesMarker.addTo(map);
         lakeMarker.addTo(map);
 
-        // Оптимизация прокрутки
         let lastTime = 0;
         map.on('wheel', (e) => {
             const now = Date.now();
@@ -401,12 +484,10 @@
             e.originalEvent.preventDefault();
         });
 
-        // Адаптация для мобильных
         if (window.innerWidth <= 768) {
             map.setView([57.9154, 35.0967], 13);
         }
 
-        // Плавная прокрутка
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -418,7 +499,6 @@
             });
         });
 
-        // Анимации
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
