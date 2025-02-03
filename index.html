@@ -133,6 +133,14 @@
             backdrop-filter: blur(12px);
             transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .stat-value {
@@ -175,6 +183,14 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .service-card::before {
@@ -194,6 +210,14 @@
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .map-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .contacts-section {
@@ -207,6 +231,14 @@
             border-radius: var(--radius);
             padding: 2rem;
             box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .contact-grid {
@@ -404,6 +436,23 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        // Анимация при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.stat-card, .service-card, .map-container, .contact-card').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Инициализация карты
         const map = L.map('map', {
             center: [57.9154, 35.0967],
             zoom: 13,
@@ -428,6 +477,7 @@
         kaesMarker.addTo(map);
         lakeMarker.addTo(map);
 
+        // Плавная прокрутка
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -438,6 +488,7 @@
             });
         });
 
+        // Адаптив для мобильных
         if (window.innerWidth <= 768) {
             map.setView([57.9154, 35.0967], 12);
         }
