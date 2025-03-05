@@ -1,540 +1,89 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="ru">
 <head>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(99766132, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true,
-        ecommerce:"dataLayer"
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/99766132" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<!-- Varioqub experiments -->
-<script type="text/javascript">
-(function(e, x, pe, r, i, me, nt){
-e[i]=e[i]||function(){(e[i].a=e[i].a||[]).push(arguments)},
-me=x.createElement(pe),me.async=1,me.src=r,nt=x.getElementsByTagName(pe)[0],me.addEventListener('error',function(){function cb(t){t=t[t.length-1],'function'==typeof t&&t({flags:{}})};Array.isArray(e[i].a)&&e[i].a.forEach(cb);e[i]=function(){cb(arguments)}}),nt.parentNode.insertBefore(me,nt)})
-(window, document, 'script', 'https://abt.s3.yandex.net/expjs/latest/exp.js', 'ymab');
-ymab('metrika.99766132', 'init'/*, {clientFeatures}, {callback}*/);
-</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/d92630495d.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Удомля — Официальный портал</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-    <style>
-        :root {
-            --primary: #FF3333;
-            --secondary: #0066FF;
-            --accent: #00CC66;
-            --bg: #F8F9FF;
-            --card-bg: #FFFFFF;
-            --text: #1A1A1A;
-            --shadow: 0 8px 24px rgba(0,0,0,0.08);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --content-width: min(90%, 1200px);
-        }
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://storage.yandexcloud.net/ymsup.ru/styles/installOfCounter.css">
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            margin: 0;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .header {
-            background: var(--card-bg);
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        .header.hidden {
-            transform: translateY(-100%);
-        }
-
-        .nav-container {
-            width: var(--content-width);
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--primary);
-            text-decoration: none;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .nav-button {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            font-size: 0.9rem;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-
-        .hero {
-            padding: 6rem 1rem 4rem;
-            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin: 0 0 3rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: white;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.15);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            backdrop-filter: blur(12px);
-            transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.2);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .stat-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stat-value {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            margin: 0 0 0.5rem;
-            color: white;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.9);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-
-        .stat-details {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.8);
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .services-grid {
-            width: var(--content-width);
-            margin: 4rem auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 0 1rem;
-        }
-
-        .service-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(
-                45deg,
-                var(--primary),
-                var(--secondary),
-                var(--accent)
-            );
-            background-size: 400% 400%;
-            animation: gradientFlow 6s ease infinite;
-        }
-
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .service-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .map-container {
-            width: var(--content-width);
-            height: 400px;
-            margin: 3rem auto;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .map-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .contacts-section {
-            width: var(--content-width);
-            margin: 4rem auto;
-            padding: 0 1rem;
-        }
-
-        .contact-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .contact-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: var(--radius);
-            background: rgba(0,0,0,0.03);
-        }
-
-        .leaflet-marker-icon {
-            background: transparent !important;
-            border: none !important;
-        }
-
-        .map-marker {
-            width: 32px !important;
-            height: 32px !important;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            color: white;
-            font-size: 18px;
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .nav-button {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.8rem;
-            }
-
-            .hero {
-                padding: 4rem 1rem 3rem;
-            }
-
-            .main-title {
-                font-size: 2.2rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .map-container {
-                height: 300px;
-            }
-
-            .service-card {
-                padding: 1.2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 1.5rem;
-            }
-
-            .nav-button {
-                width: 100%;
-                text-align: center;
-            }
-
-            .stat-details {
-                font-size: 0.8rem;
-            }
-        }
-    </style>
 </head>
+
 <body>
-    <header class="header">
-        <nav class="nav-container">
-            <a href="#" class="logo">Удомля</a>
-            <div class="nav-links">
-                <a href="#about" class="nav-button">О городе</a>
-                <a href="#services" class="nav-button">Услуги</a>
-                <a href="#map" class="nav-button">Карта</a>
+    <div class="container">
+        <main>
+            <div id="image-section">
+               
+                <img class="header-image"
+                    src="https://storage.yandexcloud.net/ymsup.ru/images/installOfCounter.png"
+                    alt="a business woman and man standing back to back to each other and smiling">
             </div>
-        </nav>
-    </header>
-
-    <section class="hero" id="about">
-        <div class="nav-container">
-            <h1 class="main-title">Удомля — город энергии и природы</h1>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">1901</div>
-                    <div class="stat-label">Год основания</div>
-                    <div class="stat-details">Первое упоминание как железнодорожная станция</div>
+            <div id="content">
+                <div id="contentnav">
+                    <nav id="navmenu">
+                        <ul>
+                            <li>
+                                <a style="font-size: 1rem;" href="#" title="Не работает">Домой</a>
+                            </li>
+                            <li>
+                                <a style="font-size: 1rem;" href="#" title="Привет">Что-то</a>
+                            </li>
+                            <li>
+                                <a style="font-size: 1rem;" href="#" title="Как дела">Где-то</a>
+                            </li>
+                            <li>
+                                <a style="font-size: 1rem;" href="#" title="Что тут хочешь найти?">Наведи на меня</a>
+                            </li>
+                        </ul>
+                    </nav>
+                 
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">28K+</div>
-                    <div class="stat-label">Жителей</div>
-                    <div class="stat-details">Средний возраст населения — 38 лет</div>
+                <div id="content-text">
+                    <h1 style="font-size: 4rem;">Задача №1</h1>
+                    <h2>Задачу нужно решить.
+                        Вопрос я дам.
+                        На вопрос нужно дать ответ.
+                        Ответа я не дам
+                    </h2>
+                    <button>Просто кнопочка</button>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">15</div>
-                    <div class="stat-label">Озёр</div>
-                    <div class="stat-details">Общая площадь водной поверхности — 42 км²</div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div id="footer">
+                    <div id="contacts">
+                        <div id="phone">
+                            Сайт сделал на коленке Boba
 
-    <section class="services-grid" id="services">
-        <article class="service-card">
-            <h2>Калининская АЭС</h2>
-            <ul class="info-list">
-                <li>4 энергоблока мощностью 4000 МВт</li>
-                <li>Обеспечивает 10% энергопотребления ЦФО</li>
-                <li>Более 3000 сотрудников</li>
-                <li>Экологический мониторинг 24/7</li>
-            </ul>
-        </article>
-        
-        <article class="service-card">
-            <h2>Транспортная система</h2>
-            <ul class="info-list">
-                <li>Автобусные маршруты: 12 городских, 8 пригородных</li>
-                <li>Ж/д сообщение с Москвой и Санкт-Петербургом</li>
-                <li>Такси: 5 операторов, средняя цена поездки — 150₽</li>
-                <li>Электрозаправки: 3 станции</li>
-            </ul>
-        </article>
-
-        <article class="service-card">
-            <h2>Экология и природа</h2>
-            <ul class="info-list">
-                <li>Воздух: индекс чистоты — 92/100</li>
-                <li>Озёра: 15 водоёмов, глубина до 24 м</li>
-                <li>Лесные массивы: 68% территории</li>
-                <li>Эко-тропы: 42 км маршрутов</li>
-            </ul>
-        </article>
-    </section>
-
-    <div class="map-container" id="map"></div>
-
-    <section class="contacts-section">
-        <div class="contact-card">
-            <h2>Контакты администрации</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div>
-                        <h3>Адрес</h3>
-                        <p>ул. Попова, 25<br>Удомля, Тверская обл.</p>
+                            <span>+123456789</span>
+                        </div>
+                        <div id="adress">
+                            Улица Льва Толстого 16.</span>
+                        </div>
                     </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">⏰</div>
-                    <div>
-                        <h3>Часы работы</h3>
-                        <p>Пн-Пт: 08:00–17:00<br>Сб-Вс: выходной</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div>
-                        <h3>Телефоны</h3>
-                        <p>+7 (48255) 5-12-34<br>+7 (48255) 5-56-78</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">✉️</div>
-                    <div>
-                        <h3>Электронная почта</h3>
-                        <p>admin@udomlya.ru<br>reception@udomlya.ru</p>
+                    <div class="icons">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        <i class="fa-solid fa-location-dot"></i>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </main>
+    </div>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();
+for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        // Скрытие хедера при скролле
-        let lastScroll = 0;
-        const header = document.querySelector('.header');
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                header.classList.add('hidden');
-            } else {
-                header.classList.remove('hidden');
-            }
-            lastScroll = currentScroll;
-        });
-
-        // Анимация при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        document.querySelectorAll('.stat-card, .service-card, .map-container, .contact-card').forEach((element) => {
-            observer.observe(element);
-        });
-
-        // Инициализация карты
-        const map = L.map('map', {
-            center: [57.9154, 35.0967],
-            zoom: 13,
-            scrollWheelZoom: true
-        });
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        const createMarker = (iconText, coords, title) => {
-            return L.marker(coords, {
-                icon: L.divIcon({
-                    className: 'map-marker',
-                    html: `<div>${iconText}</div>`,
-                    iconSize: [32, 32]
-                })
-            }).bindPopup(`<b>${title}</b>`);
-        };
-
-
-        const kaesMarker = createMarker('⚡', [57.9154, 35.0967], 'Калининская АЭС');
-        const lakeMarker = createMarker('🌊', [57.9078, 35.0833], 'Озеро Удомля');
-
-        kaesMarker.addTo(map);
-        lakeMarker.addTo(map);
-
-        // Плавная прокрутка
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
-        });
-
-        // Адаптив для мобильных
-        if (window.innerWidth <= 768) {
-            map.setView([57.9154, 35.0967], 12);
-        }
-    </script>
+ym(96758278, "init", {
+     clickmap:true,
+     trackLinks:true,
+     accurateTrackBounce:true,
+     webvisor:true
+});
+ </script>
+ <noscript><div><img src="https://mc.yandex.ru/watch/96758278" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+ <!-- /Yandex.Metrika counter -->
 </body>
+
 </html>
